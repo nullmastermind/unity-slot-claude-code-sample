@@ -169,7 +169,7 @@ public class DiceRoller : MonoBehaviour
         if (isRolling || hasRolled) return;
 
         isRolling = true;
-        rollButton.interactable = false;
+        rollButton.gameObject.SetActive(false);
         instructionText.text = "";
         resultText.text = "Rolling...";
 
@@ -239,6 +239,7 @@ public class DiceRoller : MonoBehaviour
 
         GameData.StartingPoints = startingPoints;
         hasRolled = true;
+        rollButton.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(2.5f);
 

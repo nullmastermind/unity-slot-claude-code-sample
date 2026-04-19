@@ -33,7 +33,7 @@ Before you read any file, before you check any task, before you do ANYTHING else
 You MUST make this Skill tool call before proceeding. If you find yourself reading tasks, exploring code, or calling any unity-mcp tool without having loaded "unity-mcp-skill" first, STOP and load it now.
 
 After loading, verify connection:
-- Read the project_info resource (server name: "UnityMCP", uri: "unity://project-info") to confirm Unity Editor is connected
+- Read the project_info resource (server name: "UnityMCP", uri: "mcpforunity://project/info") to confirm Unity Editor is connected
 - If connection fails, report error and stop
 - Do NOT attempt any unity-mcp tool calls until connection is verified
 - IMPORTANT: The MCP server name is "UnityMCP" (not "unity-mcp"). Use this exact name for all resource reads.
