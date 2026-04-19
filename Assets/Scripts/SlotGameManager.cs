@@ -34,23 +34,34 @@ public class SlotGameManager : MonoBehaviour
     private bool isSpinning;
 
     private string[] symbols = { "Cherry", "Lemon", "Orange", "Grape", "Bell", "Star", "Diamond", "Seven" };
-    private int[] symbolWeights = { 25, 22, 20, 18, 10, 8, 5, 2 };
+    private int[] symbolWeights = { 26, 23, 20, 18, 10, 7, 4, 2 };
     private string[] symbolDisplay = { "\u2663", "\u2665", "\u2666", "\u2660", "\u266A", "\u2605", "\u25C6", "7" };
     private int stripSymbolCount = 20; // Number of symbols in each strip
 
-    private Dictionary<string, int> payoutTable;
+    private Dictionary<string, int> payout2Match;
+    private Dictionary<string, int> payout3Match;
 
     void Awake()
     {
-        payoutTable = new Dictionary<string, int>();
-        payoutTable.Add("Cherry", 2);
-        payoutTable.Add("Lemon", 3);
-        payoutTable.Add("Orange", 4);
-        payoutTable.Add("Grape", 5);
-        payoutTable.Add("Bell", 8);
-        payoutTable.Add("Star", 12);
-        payoutTable.Add("Diamond", 20);
-        payoutTable.Add("Seven", 50);
+        payout2Match = new Dictionary<string, int>();
+        payout2Match.Add("Cherry", 1);
+        payout2Match.Add("Lemon", 1);
+        payout2Match.Add("Orange", 2);
+        payout2Match.Add("Grape", 2);
+        payout2Match.Add("Bell", 3);
+        payout2Match.Add("Star", 4);
+        payout2Match.Add("Diamond", 8);
+        payout2Match.Add("Seven", 10);
+
+        payout3Match = new Dictionary<string, int>();
+        payout3Match.Add("Cherry", 5);
+        payout3Match.Add("Lemon", 5);
+        payout3Match.Add("Orange", 8);
+        payout3Match.Add("Grape", 8);
+        payout3Match.Add("Bell", 15);
+        payout3Match.Add("Star", 30);
+        payout3Match.Add("Diamond", 60);
+        payout3Match.Add("Seven", 120);
     }
 
     void Start()
@@ -349,7 +360,7 @@ public class SlotGameManager : MonoBehaviour
 
         if (s0 == s1 && s1 == s2)
         {
-            int payout = payoutTable[s0] * costPerSpin;
+            int payout = payout3Match[s0] * costPerSpin;
             currentPoints += payout;
             resultText.text = "JACKPOT! +" + payout + " points!";
             RefreshPointsDisplay();
@@ -359,7 +370,7 @@ public class SlotGameManager : MonoBehaviour
         if (s0 == s1 || s1 == s2 || s0 == s2)
         {
             string matched = (s0 == s1) ? s0 : (s1 == s2) ? s1 : s0;
-            int payout = payoutTable[matched] * costPerSpin;
+            int payout = payout2Match[matched] * costPerSpin;
             currentPoints += payout;
             resultText.text = "Match! +" + payout + " points!";
             RefreshPointsDisplay();

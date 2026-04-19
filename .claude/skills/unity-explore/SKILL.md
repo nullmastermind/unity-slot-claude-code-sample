@@ -269,6 +269,32 @@ Check unity-apply's output:
 Ready to test in Unity Editor.
 ```
 
+If the spec-first pipeline (Option 2) was used, prompt the user to archive:
+
+```
+### Archive this change?
+
+The spec change is complete. Archiving moves it to
+openspec/changes/archive/ for record-keeping.
+
+A. Yes, archive now
+B. Not yet (I want to test/verify first)
+```
+
+If user chooses A → delegate to unity-archive:
+
+Subagent Briefing:
+```
+unity-archive
+- Why: User confirmed build complete, archiving change
+- Expect: Archived change with summary
+- Handle output:
+  - Success → show summary, suggest git commit
+  - Warnings → show warnings, let user decide
+```
+
+Use Agent tool with `subagent_type: "unity-archive"`. Pass the change name.
+
 **Issues remain:**
 ```
 ## Unity Build: Issues Found
@@ -294,7 +320,7 @@ If user chooses A → delegate to unity-apply again. Pass the FULL previous repo
 | unity-apply | User chooses to implement (Option 1 or after Option 2) |
 | unity-game-researcher | Discussion needs game design research (genre mechanics, existing games, Unity implementation patterns) |
 | osf-verify | User wants to verify implementation against spec |
-| osf-archive | User wants to archive completed change |
+| unity-archive | User wants to archive completed change |
 
 **Subagent Briefing Protocol (mandatory):** Before spawning ANY subagent, output a brief in user's language:
 ```

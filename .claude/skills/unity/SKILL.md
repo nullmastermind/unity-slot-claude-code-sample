@@ -29,20 +29,22 @@ If you catch yourself about to call manage_gameobject, create_script, manage_sce
 
 ## Dispatch
 
-Classify the user's intent from their message and conversation context:
+Classify the user's intent from their message and conversation context.
+
+**Classification rule:** If the user is talking about HOW something should work (ratios, mechanics, systems, balance, scoring, progression, economy, probability) and is NOT explicitly asking to build/implement/code it right now, classify as Game design. "Build with existing plan" requires the user to explicitly say they want to start building AND already have a complete blueprint or spec.
 
 1. **Setup/Install** — user wants to install or configure unity-mcp
    → Use the Skill tool to invoke "unity-setup"
 
-2. **Game design** — user wants to design a game, research a genre, learn from existing games, or brainstorm game mechanics
+2. **Game design** — user wants to design, brainstorm, research, or figure out ANY aspect of a game: whole game, individual system, mechanic, feature, scoring, probability, balance, UI flow, progression, economy, etc. Having specific numbers or requirements does NOT mean they have a build-ready plan — it means they have design constraints to work with.
    → Use the Skill tool to invoke "unity-design"
 
-3. **Build with existing plan** — user already has a clear, detailed game plan and wants to implement directly
+3. **Build with existing plan** — user explicitly says they want to build/implement AND already has a complete game blueprint or spec (not just a feature idea with some parameters)
    → Proceed with unity-explore's implementation options directly
 
 4. **Unclear** — not enough context to classify
    → Ask the user what they want to do:
-     A. Design a new game (brainstorm + research)
+     A. Design a new game or game system (brainstorm + research)
      B. Build from an existing plan
      C. Set up unity-mcp
      D. Other: ___
