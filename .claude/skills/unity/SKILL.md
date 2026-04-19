@@ -1,6 +1,6 @@
 ---
 name: unity
-description: Launch Unity game builder by genre. Usage: /unity [genre] [args] or /unity setup
+description: Launch Unity game builder. Usage: /unity [args]
 ---
 
 BEFORE ANYTHING ELSE — load these two skills in order:
@@ -8,7 +8,7 @@ BEFORE ANYTHING ELSE — load these two skills in order:
 1. Use the Skill tool to invoke "unity-mcp-skill" — loads unity-mcp tool schemas and best practices.
 2. Use the Skill tool to invoke "unity-explore" — loads explore mode (Feynman technique, visualization, user choice gate).
 
-Both MUST be loaded before dispatching to any genre skill. No exceptions. Do not proceed without loading both.
+Both MUST be loaded before proceeding. No exceptions.
 
 ## ORCHESTRATOR IDENTITY GATE (ABSOLUTE)
 
@@ -27,20 +27,24 @@ If you catch yourself about to call manage_gameobject, create_script, manage_sce
 
 ---
 
-Available genres: slot
-Utility commands: setup
+## Dispatch
 
-Dispatch rules:
+Classify the user's intent from their message and conversation context:
 
-1. If "$0" is "setup" or "install", use the Skill tool to invoke "unity-setup".
-2. If "$0" matches a genre, resolve to the full genre name, then use the Skill tool to invoke "unity-$0" with remaining args.
-3. If "$0" is empty or not in the list, show available options and ask which one to run.
-4. Pass all additional arguments as context for the invoked skill.
+1. **Setup/Install** — user wants to install or configure unity-mcp
+   → Use the Skill tool to invoke "unity-setup"
 
-Genre matching:
-- slot, slot-machine, slots → `unity-slot`
+2. **Game design** — user wants to design a game, research a genre, learn from existing games, or brainstorm game mechanics
+   → Use the Skill tool to invoke "unity-design"
 
-Utility matching:
-- setup, install, configure → `unity-setup`
+3. **Build with existing plan** — user already has a clear, detailed game plan and wants to implement directly
+   → Proceed with unity-explore's implementation options directly
+
+4. **Unclear** — not enough context to classify
+   → Ask the user what they want to do:
+     A. Design a new game (brainstorm + research)
+     B. Build from an existing plan
+     C. Set up unity-mcp
+     D. Other: ___
 
 ARGUMENTS: $ARGUMENTS

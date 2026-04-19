@@ -56,7 +56,7 @@ When this skill loads, you MUST reset to explore/brainstorm mode, regardless of 
 │  Use ASCII diagrams for:        │
 │  - Game state machines          │
 │  - UI screen layouts            │
-│  - Reel/grid layouts            │
+│  - System architecture          │
 │  - Data flow between systems    │
 │  - Scene transition maps        │
 │  - Component hierarchy trees    │
@@ -75,8 +75,8 @@ When this skill loads, you MUST reset to explore/brainstorm mode, regardless of 
 - What's the animation strategy? (Unity animations? Tweening? Code-driven?)
 
 **Research if needed**
-- When discussion involves game design patterns or Unity best practices
-- Delegate to osf-researcher for web research
+- When discussion involves game design patterns, Unity best practices, or genre conventions
+- Delegate to unity-game-researcher via Agent tool (subagent_type: "unity-game-researcher")
 
 ---
 
@@ -292,7 +292,7 @@ If user chooses A → delegate to unity-apply again. Pass the FULL previous repo
 |----------|-------------|
 | unity-proposal | User chooses spec-first approach (Option 2) |
 | unity-apply | User chooses to implement (Option 1 or after Option 2) |
-| osf-researcher | Discussion needs external research (game design patterns, Unity best practices) |
+| unity-game-researcher | Discussion needs game design research (genre mechanics, existing games, Unity implementation patterns) |
 | osf-verify | User wants to verify implementation against spec |
 | osf-archive | User wants to archive completed change |
 
