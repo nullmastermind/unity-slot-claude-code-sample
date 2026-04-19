@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/DiceRoll.unity
+    guid: eb3b49f3971c61a4eb13b5722e70ab1e
+  - enabled: 1
     path: Assets/Scenes/SlotGame.unity
     guid: f70982823ab320b43893e05a65ecf467
   m_configObjects:

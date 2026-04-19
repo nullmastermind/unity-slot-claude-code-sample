@@ -14,8 +14,8 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    public void OnPlayButton()
+public void OnPlayButton()
     {
-        SceneManager.LoadScene("SlotGame");
+        SceneManager.LoadScene("DiceRoll");
     }
 }

@@ -55,7 +55,7 @@ public class SlotGameManager : MonoBehaviour
 
     void Start()
     {
-        currentPoints = startingPoints;
+        currentPoints = GameData.StartingPoints;
         isSpinning = false;
         gameOverPanel.SetActive(false);
         RefreshPointsDisplay();
