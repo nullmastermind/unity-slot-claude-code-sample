@@ -13,6 +13,7 @@ public class SlotGameManager : MonoBehaviour
     public GameObject gameOverPanel;
     public Text gameOverText;
     public Button restartButton;
+    public Button rerollButton;
     public Button menuButton;
 
     [Header("Bet Controls")]
@@ -74,6 +75,8 @@ public class SlotGameManager : MonoBehaviour
 
         spinButton.onClick.AddListener(OnSpinPressed);
         restartButton.onClick.AddListener(OnRestartPressed);
+        if (rerollButton != null)
+            rerollButton.onClick.AddListener(OnRerollPressed);
         menuButton.onClick.AddListener(OnMenuPressed);
 
         if (betMinusButton != null)
@@ -390,6 +393,11 @@ public class SlotGameManager : MonoBehaviour
     private void OnRestartPressed()
     {
         SceneManager.LoadScene("SlotGame");
+    }
+
+    private void OnRerollPressed()
+    {
+        SceneManager.LoadScene("DiceRoll");
     }
 
     private void OnMenuPressed()

@@ -5,20 +5,33 @@ description: Shared explore/plan mode behavior for Unity game builder commands. 
 
 This skill defines the shared explore mode behavior for Unity game builder. The design skill (unity-design) or the user provides the GAME BLUEPRINT. This skill provides the interaction model.
 
-**IMPORTANT: This is explore mode.** You brainstorm, visualize, plan, and discuss with the user. You NEVER call unity-mcp tools. You NEVER write C# scripts. When the user is ready to build, you delegate to subagents.
+**IMPORTANT: This is explore mode.** You brainstorm, visualize, plan, and discuss with the user. You can use read-only unity-mcp tools to inspect the project. You NEVER write C# scripts or modify Unity state. When the user is ready to build, you delegate to subagents.
 
-**ORCHESTRATOR IDENTITY GATE (ABSOLUTE):**
+**ORCHESTRATOR IDENTITY GATE:**
 
-You are an orchestrator. You read, search, plan, and delegate. You do NOT execute Unity operations.
+You are an orchestrator. You read, search, plan, and delegate.
 
-Tools you use directly: Read, Glob, Grep, Agent, Skill, Bash (read-only), WebSearch, WebFetch, codebase-retrieval, TodoWrite.
+**Read-only unity-mcp tools — ALLOWED for planning:**
+You CAN call these directly to gather context and make informed plans:
+- `find_gameobjects` — discover what exists in the scene
+- `read_console` — check for errors/warnings
+- `validate_script` — verify script compiles
+- `manage_scene` action "list" — list available scenes
+- `manage_build` action "status" — check build state
+- `project_info` resource — get project info, render pipeline, Unity version
+- Any unity-mcp call that only READS state without changing it
 
-Checkpoint — before ANY call that modifies Unity state:
-1. Pause. Ask: "Am I executing Unity operations right now?"
+**Write unity-mcp tools — NEVER call directly:**
+Creating GameObjects, writing scripts, modifying components, creating materials, building — ALL modifications go through Agent tool with subagent_type: "unity-apply".
+
+Tools you use directly: Read, Glob, Grep, Agent, Skill, Bash (read-only), WebSearch, WebFetch, codebase-retrieval, TodoWrite, plus read-only unity-mcp tools listed above.
+
+Checkpoint — before ANY unity-mcp call:
+1. Ask: "Does this call modify Unity state?"
 2. If yes → STOP. Delegate via Agent tool:
    - Implement → `subagent_type: "unity-apply"`
    - Create spec → `subagent_type: "unity-proposal"`
-3. If no (reading, searching, planning) → proceed.
+3. If no (reading, querying, validating) → proceed directly.
 
 No exceptions — "it's just one script" is not a reason to bypass delegation.
 
@@ -49,6 +62,14 @@ When this skill loads, you MUST reset to explore/brainstorm mode, regardless of 
 - Challenge: "Is this mechanic fun? What makes a player keep playing?"
 - Simplify: "Can we cut this feature and still have a good game?"
 - Expand: "What if we added X? Would that make it better?"
+
+**Inspect the Unity project** (use read-only unity-mcp tools)
+- Check what already exists: `find_gameobjects` to see current scene hierarchy
+- Read project info: render pipeline, Unity version, installed packages
+- Check console for existing errors before planning new work
+- Validate existing scripts to understand current state
+- List scenes to understand project structure
+- Use this context to make plans grounded in reality, not assumptions
 
 **Visualize the game**
 ```
@@ -335,7 +356,7 @@ If user chooses A → delegate to unity-apply again. Pass the FULL previous repo
 
 ## Guardrails
 
-- **Don't execute** — Never call unity-mcp tools. Always delegate to unity-apply.
+- **Don't modify Unity state** — Read-only unity-mcp tools are fine for planning. Creating, modifying, deleting anything → delegate to unity-apply.
 - **Don't create specs yourself** — Delegate to unity-proposal.
 - **Don't rush** — Game design needs exploration. Discovery is thinking time.
 - **Don't accept fog** — "probably", "etc", "something like" = undefined requirement. STOP and clarify.
