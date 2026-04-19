@@ -282,7 +282,7 @@ B. Stop here and test what's built
 C. Other: ___
 ```
 
-If user chooses A → delegate to unity-apply again (never fix yourself).
+If user chooses A → delegate to unity-apply again. Pass the FULL previous report as context so the new subagent knows what already exists. Never fix yourself. Never summarize the report — pass it verbatim.
 
 ---
 

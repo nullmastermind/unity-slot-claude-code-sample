@@ -217,37 +217,31 @@ After verification, fix issues on FIRST pass.
 
 ---
 
-## STEP 7: FINAL OUTPUT
+## STEP 7: PROGRESS REPORT (MANDATORY)
 
-**If all clear:**
+Every run MUST end with this report. No exceptions.
+
+**COMPLETE:**
 ```
-## Implementation Complete & Verified
-
-**Change:** <change-name>
-**Progress:** N/N tasks complete
-**Verification:** All checks passed
-
-Scenes: [list]
-Scripts: [count] compiled
-UI Screens: [list]
-Build: [ready/built]
-
-Ready to test in Unity Editor.
+UNITY-APPLY REPORT
+Status: COMPLETE
+Tasks: N/N
+Done: [scenes, scripts, UI, assets — exact names]
+Errors: None
 ```
 
-**If issues remain:**
+**PARTIAL or BLOCKED:**
 ```
-## Implementation Complete (Issues Remain)
-
-**Change:** <change-name>
-**Progress:** N/N tasks complete
-**Auto-fixed:** [N] issues
-**Remaining:** [M] issues
-
-### Issues Needing Resolution:
-1. [issue] — [suggestion]
-2. [issue] — [suggestion]
+UNITY-APPLY REPORT
+Status: PARTIAL (or BLOCKED)
+Tasks: [done]/[total]
+Done: [what exists — exact names]
+Not done: [remaining tasks]
+Errors: [exact messages, or "None"]
+→ To continue, call unity-apply again with this report as context.
 ```
+
+The line "call unity-apply again" is critical — it reminds the orchestrator to delegate, never self-fix.
 
 ---
 

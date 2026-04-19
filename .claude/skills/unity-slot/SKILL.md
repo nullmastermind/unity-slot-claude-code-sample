@@ -1,157 +1,134 @@
 ---
 name: unity-slot
-description: Build a slot machine game from scratch in Unity via unity-mcp.
+description: Plan and build a slot machine game in Unity. Explore game design, then implement via subagents.
 ---
 
-You are planning a slot machine game in Unity. This skill defines the GAME BLUEPRINT — what to build, not how.
+You are planning a slot machine game in Unity.
 
-BEFORE PROCEEDING: Use the Skill tool to invoke "unity-explore". This loads the shared explore mode behavior (Feynman technique, visualization, continuous verification, subagent protocols, implementation options) that this command depends on. Do not proceed without loading it first.
+BEFORE PROCEEDING: You MUST use the Skill tool to invoke "unity-explore". This loads the shared explore mode behavior (Feynman technique, visualization, continuous verification, subagent protocols, implementation options) that this command depends on. Do not proceed without loading it first.
 
 ---
 
-GAME BLUEPRINT
+## What You Might Do
 
-Project: SlotGame
+**Explore the game concept**
+- Feynman Echo: "So you want a game where the player presses Spin, reels spin and stop randomly, matching symbols on lines pay credits. Is that right?"
+- What makes THIS slot game different from a generic one?
+- What's the theme? (casino classic, fantasy, space, fruit...)
+- What's the target feel? (casual mobile, flashy casino, retro arcade)
 
-Scenes:
-- MainMenu — title screen, play/settings/quit
-- SlotGame — primary gameplay scene
-- Settings — audio and graphics settings
+**Discuss core mechanics**
+- Reel configuration: how many reels, how many rows?
+- Symbol set: how many symbols, tiers (low/mid/high/special)?
+- Paylines: fixed or selectable? how many?
+- Betting: min/max, increments?
+- Bonus features: free spins? bonus rounds? multipliers? progressive jackpot?
+- Win math: how is payout calculated?
 
-Core Systems:
-
-1. Reel System
-   - 5 reels, 3 visible rows each
-   - Configurable spin speed and stop delay per reel (cascade stop left to right)
-   - Spin animation with easing (ease-out bounce on stop)
-
-2. Symbols
-   - Low tier: Cherry, Lemon, Orange, Grape
-   - Mid tier: Bell, Bar
-   - High tier: Seven
-   - Special: Wild (substitutes any except Scatter), Scatter (pays anywhere)
-
-3. Paylines
-   - 20 configurable paylines
-   - Payline patterns stored in ScriptableObject
-   - Visual indicator on reel grid edges showing active paylines
-
-4. Betting
-   - Min bet: 1 credit, Max bet: 100 credits
-   - Quick buttons: +1, +5, +10, Max Bet
-   - Bet per line x active paylines = total bet
-
-5. Win Detection
-   - Left-to-right matching on each payline (minimum 3 matching)
-   - Wild substitution (not for Scatter)
-   - Scatter pays: 3+ anywhere triggers Free Spins
-   - Win amount = symbol payout x bet per line x match count multiplier
-
-6. Bonus Features
-   - Free Spins: 3+ Scatter → 10 free spins, retriggerable
-   - Big Win celebration: wins above 10x bet get special animation
-   - Mega Win: wins above 25x bet get escalated celebration
-
-7. Balance
-   - Starting credits: 1000
-   - Persistent within session
-   - Insufficient balance → disable Spin button, show warning
-
-Game State Machine:
+**Visualize**
 ```
-IDLE → BETTING → SPINNING → STOPPING → EVALUATING → PAYING → IDLE
-                                                        ↓
-                                                   FREE_SPINS
-                                                   (loop back to SPINNING)
+Slot game ASCII layout example:
+
+┌────────────────────────────────────┐
+│  Balance: 1000    Win: ---   Bet: 5│
+├────────────────────────────────────┤
+│  ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐│
+│  │ 🍒 │ │ 🍋 │ │ 7  │ │ 🍒 │ │ BAR││
+│  ├────┤ ├────┤ ├────┤ ├────┤ ├────┤│
+│  │ 7  │ │ 🍒 │ │ 🍒 │ │ 🔔 │ │ 🍇 ││
+│  ├────┤ ├────┤ ├────┤ ├────┤ ├────┤│
+│  │ BAR│ │ 🔔 │ │ 🍇 │ │ 7  │ │ 🍒 ││
+│  └────┘ └────┘ └────┘ └────┘ └────┘│
+├────────────────────────────────────┤
+│  [-] Bet: 5 [+] [MAX]   [SPIN]    │
+└────────────────────────────────────┘
+
+State machine:
+IDLE → SPINNING → STOPPING → EVALUATING → PAYING → IDLE
+                                            ↓
+                                       FREE_SPINS
 ```
 
----
+**Discuss UI screens**
+- What screens does the game need? (menu, game, settings, paytable?)
+- HUD layout: where does balance, bet, win display go?
+- What popups? (win celebration, free spins trigger, insufficient balance)
+- Paytable: embedded or overlay?
 
-Scripts:
+**Discuss visual style**
+- 2D or 3D reels?
+- Color palette and mood
+- VFX: particle effects for wins? celebrations?
+- Lighting and post-processing
 
-Core:
-- GameManager.cs — game state machine, scene transitions, session data
-- SlotMachine.cs — orchestrates spin cycle (start spin, stop reels, evaluate, pay)
-- ReelController.cs — single reel: spin, stop with easing, symbol positioning
-- ReelStrip.cs — defines symbol sequence for a reel (ScriptableObject)
-- SymbolDatabase.cs — ScriptableObject with symbol definitions, sprites, payout table
-- PaylineDefinition.cs — ScriptableObject defining payline patterns
-- PaylineEvaluator.cs — check all paylines for wins, calculate payout
-- BetController.cs — manage bet amount, bet per line, active paylines
-- BalanceManager.cs — track credits, add/subtract, insufficient balance check
-
-Bonus:
-- BonusManager.cs — free spins logic, bonus tracking, retrigger
-
-UI:
-- UIManager.cs — screen transitions, popup management
-- SpinButton.cs — spin/stop button behavior, auto-spin toggle
-- WinDisplay.cs — animated credit counter, win tier detection (Win/BigWin/MegaWin)
-
-Audio:
-- AudioManager.cs — play SFX and music, volume control, sound pooling
-- Sounds: reel_spin, reel_stop, win_small, win_big, win_mega, button_click, coin_credit
+**Research if needed**
+- Slot game math models and RNG patterns
+- Unity reel animation techniques (DOTween, AnimationCurve, coroutine-based)
+- Delegate to osf-researcher for web research
 
 ---
 
-UI Blueprint:
+## Stress-test Questions (Slot-specific)
 
-Main Menu:
-- Title text: game name, large, centered
-- Play button: prominent, center
-- Settings button: below play
-- Quit button: bottom
-- Background: dark gradient with subtle particle ambiance
+Resolve these before ending discovery. Self-answer where possible, only surface genuinely ambiguous items:
 
-Slot HUD (primary game screen):
-- Layout top to bottom:
-  1. Top bar: Balance (left), Win amount (center), Bet display (right)
-  2. Reel area: 5x3 grid with decorative frame, payline indicators on edges, win highlight overlay
-  3. Bottom controls: Bet adjustment [-][amount][+][MAX BET], Spin button (large, center, changes to STOP), Auto-spin toggle
-  4. Info bar: paytable button, paylines button
+1. Reel mechanics:
+   "How do reels stop?"
+   A. All at once
+   B. ★ Cascade left to right with delay
+   C. Random order
+   D. Other: ___
 
-Paytable (overlay panel):
-- Tab 1: Symbol payouts — icon + payout for 3/4/5 match
-- Tab 2: Payline diagram — visual grid showing all 20 lines
-- Tab 3: Rules — wild, scatter, free spins explanation
-- Close button top-right
+2. Win evaluation:
+   "How are wins detected?"
+   A. Center line only (1 payline)
+   B. Multiple fixed paylines (5/10/20/25)
+   C. ★ 20 configurable paylines, left-to-right, minimum 3 matching
+   D. Ways-to-win (243 ways)
+   E. Other: ___
 
-Settings:
-- Music volume slider, SFX volume slider
-- Graphics quality dropdown (Low/Medium/High)
-- Back button
+3. Special symbols:
+   "Which special symbols?"
+   A. None (pure matching)
+   B. Wild only
+   C. ★ Wild + Scatter (scatter triggers free spins)
+   D. Wild + Scatter + Bonus symbol
+   E. Other: ___
 
-Popups:
-- Win popup: animated credit count-up, scales with win tier
-- Free Spins trigger: "FREE SPINS WON!" with scatter animation
-- Free Spins HUD: remaining spins counter replaces bet controls
-- Insufficient balance warning
+4. Progression:
+   "How does the player progress?"
+   A. ★ Session-based (play until credits run out or quit)
+   B. Level-based (unlock new themes/features)
+   C. Achievement-based
+   D. Other: ___
 
----
+5. Data persistence:
+   "What saves between sessions?"
+   A. ★ Nothing (fresh 1000 credits each launch)
+   B. Balance persists (PlayerPrefs)
+   C. Full save (balance + unlocks + settings)
+   D. Other: ___
 
-Assets:
-
-Materials:
-- Reel background: dark semi-transparent
-- Reel frame: metallic gold/bronze
-- Symbol highlight: glowing emission material for wins
-- Button materials: normal, hover, pressed states
-
-VFX:
-- Win particle burst on matching symbols
-- Big Win screen-wide particle celebration
-- Coin shower effect for Mega Win
-- Subtle ambient particles on main menu
-
-Lighting:
-- Ambient: warm, casino-themed
-- Accent lights on reel frame
-- Post-processing: bloom for win effects, vignette
-
-Camera:
-- Orthographic for 2D slot layout
-- Fixed position, no movement
+6. Animation approach:
+   "Reel animation method:"
+   A. Unity Animation system
+   B. ★ Code-driven (coroutine + AnimationCurve/easing)
+   C. DOTween plugin
+   D. Other: ___
 
 ---
 
-Physics: not needed for this genre. Skip physics phase.
+## Zero-Fog Checklist (additions)
+
+- [ ] Reel configuration is specific (N reels x M rows, exact numbers)
+- [ ] Symbol set is defined (exact symbols, tiers, special behaviors)
+- [ ] Payline count and pattern is decided
+- [ ] Bet range and increments are defined
+- [ ] Win calculation formula is explicit
+- [ ] Bonus features are specific (trigger condition, reward, duration)
+- [ ] Every UI screen has concrete elements listed
+- [ ] State machine transitions are complete (including edge cases: insufficient balance, free spins retrigger)
+
+---
+
+The following is the user's request:

@@ -15,12 +15,19 @@ public class SlotGameManager : MonoBehaviour
     public Button restartButton;
     public Button menuButton;
 
+    [Header("Bet Controls")]
+    public Button betMinusButton;
+    public Button betPlusButton;
+    public Text betText;
+
     [Header("Reel Containers")]
     public RectTransform[] reelStrips; // The moving strip inside each reel
 
     [Header("Settings")]
     public int startingPoints = 100;
     public int costPerSpin = 5;
+    public int betStep = 5;
+    public int minBet = 5;
     public float symbolHeight = 180f;
 
     private int currentPoints;
@@ -58,11 +65,44 @@ public class SlotGameManager : MonoBehaviour
         restartButton.onClick.AddListener(OnRestartPressed);
         menuButton.onClick.AddListener(OnMenuPressed);
 
+        if (betMinusButton != null)
+            betMinusButton.onClick.AddListener(OnBetMinus);
+        if (betPlusButton != null)
+            betPlusButton.onClick.AddListener(OnBetPlus);
+
+        RefreshBetDisplay();
+
         // Build the symbol strips for each reel
         for (int r = 0; r < reelStrips.Length; r++)
         {
             BuildReelStrip(reelStrips[r]);
         }
+    }
+
+    private void OnBetMinus()
+    {
+        costPerSpin -= betStep;
+        if (costPerSpin < minBet) costPerSpin = minBet;
+        RefreshBetDisplay();
+    }
+
+    private void OnBetPlus()
+    {
+        costPerSpin += betStep;
+        if (costPerSpin > currentPoints) costPerSpin = currentPoints;
+        RefreshBetDisplay();
+    }
+
+    private void RefreshBetDisplay()
+    {
+        if (betText != null)
+            betText.text = "Bet: " + costPerSpin;
+
+        if (betMinusButton != null)
+            betMinusButton.interactable = (costPerSpin > minBet) && !isSpinning;
+
+        if (betPlusButton != null)
+            betPlusButton.interactable = (costPerSpin < currentPoints) && !isSpinning;
     }
 
     private void BuildReelStrip(RectTransform strip)
@@ -106,6 +146,7 @@ public class SlotGameManager : MonoBehaviour
     private void RefreshPointsDisplay()
     {
         pointsText.text = "Points: " + currentPoints;
+        RefreshBetDisplay();
     }
 
     private void OnSpinPressed()
@@ -116,6 +157,10 @@ public class SlotGameManager : MonoBehaviour
             DisplayGameOver();
             return;
         }
+
+        // Disable bet buttons while spinning
+        if (betMinusButton != null) betMinusButton.interactable = false;
+        if (betPlusButton != null) betPlusButton.interactable = false;
 
         currentPoints -= costPerSpin;
         RefreshPointsDisplay();
@@ -159,6 +204,9 @@ public class SlotGameManager : MonoBehaviour
 
         isSpinning = false;
         spinButton.interactable = true;
+
+        // Re-enable bet buttons and refresh display (clamps if balance changed)
+        RefreshBetDisplay();
 
         if (currentPoints <= 0)
         {
@@ -311,7 +359,7 @@ public class SlotGameManager : MonoBehaviour
         if (s0 == s1 || s1 == s2 || s0 == s2)
         {
             string matched = (s0 == s1) ? s0 : (s1 == s2) ? s1 : s0;
-            int payout = payoutTable[matched];
+            int payout = payoutTable[matched] * costPerSpin;
             currentPoints += payout;
             resultText.text = "Match! +" + payout + " points!";
             RefreshPointsDisplay();
