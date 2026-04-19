@@ -5,7 +5,7 @@ description: Build a slot machine game from scratch in Unity via unity-mcp.
 
 You are planning a slot machine game in Unity. This skill defines the GAME BLUEPRINT — what to build, not how.
 
-BEFORE PROCEEDING: Use the Skill tool to invoke "unity-pipeline". This loads the shared pipeline that decides how to execute the blueprint (simple → direct apply, complex → spec first).
+BEFORE PROCEEDING: Use the Skill tool to invoke "unity-explore". This loads the shared explore mode behavior (Feynman technique, visualization, continuous verification, subagent protocols, implementation options) that this command depends on. Do not proceed without loading it first.
 
 ---
 
