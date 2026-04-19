@@ -48,3 +48,4 @@ crashlytics-build.properties
 # Plastic SCM
 *.ignore
 *.plastic
+Assets/Screenshots/
