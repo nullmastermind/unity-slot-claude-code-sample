@@ -3,9 +3,9 @@ name: unity-slot
 description: Build a slot machine game from scratch in Unity via unity-mcp.
 ---
 
-You are building a slot machine game in Unity using unity-mcp MCP tools.
+You are planning a slot machine game in Unity. This skill defines the GAME BLUEPRINT — what to build, not how.
 
-BEFORE PROCEEDING: Use the Skill tool to invoke "unity-pipeline". This loads the shared build pipeline that orchestrates all phase skills. Do not proceed without loading it first.
+BEFORE PROCEEDING: Use the Skill tool to invoke "unity-pipeline". This loads the shared pipeline that decides how to execute the blueprint (simple → direct apply, complex → spec first).
 
 ---
 
@@ -37,21 +37,20 @@ Core Systems:
    - Visual indicator on reel grid edges showing active paylines
 
 4. Betting
-   - Min bet: 1 credit
-   - Max bet: 100 credits
+   - Min bet: 1 credit, Max bet: 100 credits
    - Quick buttons: +1, +5, +10, Max Bet
-   - Bet per line × active paylines = total bet
+   - Bet per line x active paylines = total bet
 
 5. Win Detection
    - Left-to-right matching on each payline (minimum 3 matching)
    - Wild substitution (not for Scatter)
    - Scatter pays: 3+ anywhere triggers Free Spins
-   - Win amount = symbol payout × bet per line × match count multiplier
+   - Win amount = symbol payout x bet per line x match count multiplier
 
 6. Bonus Features
    - Free Spins: 3+ Scatter → 10 free spins, retriggerable
-   - Big Win celebration: wins above 10× bet get special animation
-   - Mega Win: wins above 25× bet get escalated celebration
+   - Big Win celebration: wins above 10x bet get special animation
+   - Mega Win: wins above 25x bet get escalated celebration
 
 7. Balance
    - Starting credits: 1000
@@ -107,13 +106,8 @@ Main Menu:
 Slot HUD (primary game screen):
 - Layout top to bottom:
   1. Top bar: Balance (left), Win amount (center), Bet display (right)
-  2. Reel area: 5×3 grid with decorative frame
-     - Payline indicators on left/right edges
-     - Win highlight overlay on matching symbols
-  3. Bottom controls:
-     - Bet adjustment: [-] [amount] [+] [MAX BET]
-     - Spin button: large, center, changes to STOP during spin
-     - Auto-spin toggle with spin count selector
+  2. Reel area: 5x3 grid with decorative frame, payline indicators on edges, win highlight overlay
+  3. Bottom controls: Bet adjustment [-][amount][+][MAX BET], Spin button (large, center, changes to STOP), Auto-spin toggle
   4. Info bar: paytable button, paylines button
 
 Paytable (overlay panel):
@@ -123,8 +117,7 @@ Paytable (overlay panel):
 - Close button top-right
 
 Settings:
-- Music volume slider
-- SFX volume slider
+- Music volume slider, SFX volume slider
 - Graphics quality dropdown (Low/Medium/High)
 - Back button
 
@@ -161,4 +154,4 @@ Camera:
 
 ---
 
-Physics: not needed for this genre. Skip Phase 6.
+Physics: not needed for this genre. Skip physics phase.
