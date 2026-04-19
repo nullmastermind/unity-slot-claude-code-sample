@@ -3,6 +3,8 @@ name: unity
 description: Launch Unity game builder by genre. Usage: /unity [genre] [args] or /unity setup
 ---
 
+BEFORE ANYTHING ELSE: You MUST use the Skill tool to invoke "unity-mcp-skill". This loads the unity-mcp tool schemas, best practices, and workflow patterns that all unity skills depend on. Do not proceed without loading it first.
+
 Available genres: slot
 Utility commands: setup
 
