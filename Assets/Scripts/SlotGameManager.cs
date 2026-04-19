@@ -128,28 +128,28 @@ public class SlotGameManager : MonoBehaviour
         spinButton.interactable = false;
         resultText.text = "Spinning...";
 
-        int[] resultIndices = new int[3];
+        int[] resultIndices = new int[reelStrips.Length];
 
         // Determine final symbols
-        for (int r = 0; r < 3; r++)
+        for (int r = 0; r < reelStrips.Length; r++)
             resultIndices[r] = GetWeightedIndex();
 
         // Rebuild strips with the target symbol at a known position
-        for (int r = 0; r < 3; r++)
+        for (int r = 0; r < reelStrips.Length; r++)
         {
             RebuildStripWithTarget(reelStrips[r], resultIndices[r], r);
         }
 
         // Start spinning all reels simultaneously, stop with cascade delay
-        Coroutine[] spinCoroutines = new Coroutine[3];
-        for (int r = 0; r < 3; r++)
+        Coroutine[] spinCoroutines = new Coroutine[reelStrips.Length];
+        for (int r = 0; r < reelStrips.Length; r++)
         {
             float spinDuration = 1.5f + r * 0.6f; // cascade: each reel stops later
             spinCoroutines[r] = StartCoroutine(SpinSingleReel(reelStrips[r], spinDuration));
         }
 
         // Wait for all reels to finish
-        for (int r = 0; r < 3; r++)
+        for (int r = 0; r < reelStrips.Length; r++)
             yield return spinCoroutines[r];
 
         // Small pause then evaluate
