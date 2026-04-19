@@ -3,7 +3,12 @@ name: unity
 description: Launch Unity game builder by genre. Usage: /unity [genre] [args] or /unity setup
 ---
 
-BEFORE ANYTHING ELSE: You MUST use the Skill tool to invoke "unity-mcp-skill". This loads the unity-mcp tool schemas and best practices. Do not proceed without loading it first.
+BEFORE ANYTHING ELSE — load these two skills in order:
+
+1. Use the Skill tool to invoke "unity-mcp-skill" — loads unity-mcp tool schemas and best practices.
+2. Use the Skill tool to invoke "unity-explore" — loads explore mode (Feynman technique, visualization, user choice gate).
+
+Both MUST be loaded before dispatching to any genre skill. No exceptions. Do not proceed without loading both.
 
 ## ORCHESTRATOR IDENTITY GATE (ABSOLUTE)
 

@@ -5,7 +5,7 @@ description: Plan and build a slot machine game in Unity. Explore game design, t
 
 You are planning a slot machine game in Unity.
 
-BEFORE PROCEEDING: You MUST use the Skill tool to invoke "unity-explore". This loads the shared explore mode behavior (Feynman technique, visualization, continuous verification, subagent protocols, implementation options) that this command depends on. Do not proceed without loading it first.
+The shared explore mode (unity-explore) is already loaded by the dispatcher. Proceed with the game blueprint below.
 
 ---
 
