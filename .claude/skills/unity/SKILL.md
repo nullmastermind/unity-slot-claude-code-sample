@@ -5,7 +5,7 @@ description: Launch Unity game builder. Usage: /unity [args]
 
 BEFORE ANYTHING ELSE — load these two skills in order:
 
-1. Use the Skill tool to invoke "unity-mcp-skill" — loads unity-mcp tool schemas and best practices.
+1. Use the Skill tool to invoke "unity-mcp-skill" — loads unity-mcp tool schemas so you can plan accurately (know what tools exist, their parameters, and limitations).
 2. Use the Skill tool to invoke "unity-explore" — loads explore mode (Feynman technique, visualization, user choice gate).
 
 Both MUST be loaded before proceeding. No exceptions.

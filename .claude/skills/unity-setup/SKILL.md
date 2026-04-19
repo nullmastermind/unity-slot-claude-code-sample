@@ -50,7 +50,7 @@ Add unity-mcp to the mcpServers section:
 ```json
 {
   "mcpServers": {
-    "unityMCP": {
+    "UnityMCP": {
       "url": "http://localhost:8080/mcp"
     }
   }

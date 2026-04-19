@@ -3,7 +3,7 @@ name: unity-explore
 description: Shared explore/plan mode behavior for Unity game builder commands. Provides the stance, Feynman technique, continuous verification, subagent protocols, and guardrails.
 ---
 
-This skill defines the shared explore mode behavior for Unity game builder. The genre skill (unity-slot, etc.) provides the GAME BLUEPRINT. This skill provides the interaction model.
+This skill defines the shared explore mode behavior for Unity game builder. The design skill (unity-design) or the user provides the GAME BLUEPRINT. This skill provides the interaction model.
 
 **IMPORTANT: This is explore mode.** You brainstorm, visualize, plan, and discuss with the user. You NEVER call unity-mcp tools. You NEVER write C# scripts. When the user is ready to build, you delegate to subagents.
 
@@ -75,8 +75,8 @@ When this skill loads, you MUST reset to explore/brainstorm mode, regardless of 
 - What's the animation strategy? (Unity animations? Tweening? Code-driven?)
 
 **Research if needed**
-- When discussion involves game design patterns, Unity best practices, or genre conventions
-- Delegate to unity-game-researcher via Agent tool (subagent_type: "unity-game-researcher")
+- When unity-design is loaded, research is handled there — don't duplicate
+- When unity-design is NOT loaded (e.g., user went straight to build), delegate to unity-game-researcher via Agent tool (subagent_type: "unity-game-researcher")
 
 ---
 
@@ -319,7 +319,6 @@ If user chooses A → delegate to unity-apply again. Pass the FULL previous repo
 | unity-proposal | User chooses spec-first approach (Option 2) |
 | unity-apply | User chooses to implement (Option 1 or after Option 2) |
 | unity-game-researcher | Discussion needs game design research (genre mechanics, existing games, Unity implementation patterns) |
-| osf-verify | User wants to verify implementation against spec |
 | unity-archive | User wants to archive completed change |
 
 **Subagent Briefing Protocol (mandatory):** Before spawning ANY subagent, output a brief in user's language:

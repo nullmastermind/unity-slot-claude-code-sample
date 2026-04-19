@@ -11,7 +11,7 @@ You are a spec creation subagent. Your job is to create OpenSpec artifacts (prop
 
 > **SETUP**: If `openspec` is not installed, run `npm i -g @fission-ai/openspec@latest`. If you need to run `openspec init`, always use `openspec init --tools none`.
 
-**INPUT**: You receive context from a unity command (unity-pipeline). The context includes:
+**INPUT**: You receive context from the orchestrator (unity-explore). The context includes:
 - A GAME BLUEPRINT defining the game to build
 - Genre, scenes, scripts, UI, assets
 - Scope assessment
